@@ -35,14 +35,33 @@ checkMock = async (whiteList: Array<string>) => {
     console.log('Is Mock Location: ', checkResult.isMock);
     console.log('Messages: ', checkResult.messages);
     console.log('Indicated Apps: ', checkResult.indicated.join("\n"));
+
+
+    // Open Detail First Indicated App
+    if (checkResult.indicated != null) {
+      await MockLocationChecker.goToMockLocationAppDetail({ packageName: checkResult.indicated[0] });
+    }
   };
 ```
 
+Add this to your app Manifest.xml
+
+```xml
+<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+```
+or,
+
+```xml
+<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    tools:ignore="QueryAllPackagesPermission" />
+```
 ## API
 
 <docgen-index>
 
 * [`checkMock(...)`](#checkmock)
+* [`isLocationFromMockProvider()`](#islocationfrommockprovider)
+* [`goToMockLocationAppDetail(...)`](#gotomocklocationappdetail)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -61,6 +80,30 @@ checkMock(options: { whiteList: Array<string>; }) => Promise<CheckMockResult>
 | **`options`** | <code>{ whiteList: string[]; }</code> | : <a href="#array">Array</a>&lt;string&gt;} |
 
 **Returns:** <code>Promise&lt;<a href="#checkmockresult">CheckMockResult</a>&gt;</code>
+
+--------------------
+
+
+### isLocationFromMockProvider()
+
+```typescript
+isLocationFromMockProvider() => Promise<Boolean>
+```
+
+**Returns:** <code>Promise&lt;<a href="#boolean">Boolean</a>&gt;</code>
+
+--------------------
+
+
+### goToMockLocationAppDetail(...)
+
+```typescript
+goToMockLocationAppDetail(options: { packageName: string; }) => Promise<void>
+```
+
+| Param         | Type                                  | Description |
+| ------------- | ------------------------------------- | ----------- |
+| **`options`** | <code>{ packageName: string; }</code> | : string}   |
 
 --------------------
 
@@ -126,5 +169,12 @@ checkMock(options: { whiteList: Array<string>; }) => Promise<CheckMockResult>
 | --------- | ------------------------------------------------------------------ |
 | **join**  | (separator?: string \| undefined) =&gt; string                     |
 | **slice** | (start?: number \| undefined, end?: number \| undefined) =&gt; T[] |
+
+
+#### Boolean
+
+| Method      | Signature        | Description                                          |
+| ----------- | ---------------- | ---------------------------------------------------- |
+| **valueOf** | () =&gt; boolean | Returns the primitive value of the specified object. |
 
 </docgen-api>
